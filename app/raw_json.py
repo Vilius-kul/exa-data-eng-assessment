@@ -1,7 +1,8 @@
 import json
 import os
+from textwrap import indent
 
-from schema import ResourceType
+from schema import Bundle
 
 # Opening JSON file
 file_list = sorted(os.listdir("data"))
@@ -12,19 +13,18 @@ f = open(file_name)
 # a dictionary
 data = json.load(f)
 
-# print(data["resourceType"])
-test = ResourceType(**data)
-print(type(test))
-print(test)
-print(test.resourceType)
-
-# data["resourceType"] and  data["type"] --> str
-
+test = Bundle(**data)
+# print(test.entry[0].keys())
+# dict_keys(['fullUrl', 'resource', 'request'])
+# dict_keys(['resourceType', 'id', 'meta', 'text', 'extension', 'identifier', 'name', 'telecom', 'gender', 'birthDate', 'deceasedDateTime', 'address', 'maritalStatus', 'multipleBirthBoolean', 'communication'])
+print(test.entry[0].resource.keys())
 # print(type(data["entry"]))
 # print(len(data["entry"]))
 # print(type(data["entry"][0]))
 # print(data["entry"][0].keys())  # bingo
-# print(data["entry"][0]["fullUrl"])  # full Url
+# print(type(data["entry"][0]["fullUrl"]))  # full Url
+
+
 # print(data["entry"][0]["request"]) # method Url etc
 # print(data["entry"][0]["resource"].keys())
 
