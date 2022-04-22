@@ -1,6 +1,8 @@
 import json
 import os
 
+from schema import ResourceType
+
 # Opening JSON file
 file_list = sorted(os.listdir("data"))
 file_name = "data/" + file_list[0]
@@ -10,14 +12,20 @@ f = open(file_name)
 # a dictionary
 data = json.load(f)
 
+# print(data["resourceType"])
+test = ResourceType(**data)
+print(type(test))
+print(test)
+print(test.resourceType)
 
 # data["resourceType"] and  data["type"] --> str
 
-print(type(data["entry"]))
+# print(type(data["entry"]))
 # print(len(data["entry"]))
 # print(type(data["entry"][0]))
 # print(data["entry"][0].keys())  # bingo
 # print(data["entry"][0]["fullUrl"])  # full Url
+# print(data["entry"][0]["request"]) # method Url etc
 # print(data["entry"][0]["resource"].keys())
 
 
