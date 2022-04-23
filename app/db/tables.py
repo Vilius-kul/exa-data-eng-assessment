@@ -4,8 +4,8 @@ from piccolo.table import Table
 
 class Patient(Table, tablename="patient_info"):
 
-    PatientUID = UUID(primary_key=True)
-    NameFamily = Varchar(length=100)
-    NameGiven = Varchar(length=100)
-    DoB = Text(length=50)
-    Gender = Text(length=50)
+    patient_uid = UUID(primary_key=True)
+    family_name = Varchar(length=100)
+    name_given = Varchar(length=100)
+    dob = Text(length=50)
+    gender = Text(length=50)
