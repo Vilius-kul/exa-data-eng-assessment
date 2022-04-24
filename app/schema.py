@@ -34,10 +34,10 @@ class Patient(BaseModel):
     telecom: list[Telecom]
     gender: str
     birthDate: date
-    deceasedDateTime: Optional[datetime]
+    deceasedDateTime: str = "n/a"
     address: list[dict]
     maritalStatus: dict
-    multipleBirthBoolean: Optional[str]
+    multipleBirthBoolean: str = "n/a"
     communication: list[dict]  # patient language
 
 
