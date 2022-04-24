@@ -1,8 +1,7 @@
-from datetime import date
-from token import OP
+from datetime import date, datetime
 from typing import Literal, Optional, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, parse_obj_as
 from typing_extensions import Annotated
 
 
@@ -27,19 +26,19 @@ class Condition(BaseModel):
 class Patient(BaseModel):
     resourceType: Literal["Patient"]
     id: str
-    meta: dict  # ?
-    text: dict  # ?
+    meta: dict
+    text: dict
     extension: list[dict]
     identifier: list[dict]
     name: list[Name]
     telecom: list[Telecom]
     gender: str
     birthDate: date
-    deceasedDateTime: Optional[str]  # TODO: dateTime?
+    deceasedDateTime: Optional[datetime]
     address: list[dict]
     maritalStatus: dict
-    multipleBirthBoolean: bool
-    communication: list[dict]
+    multipleBirthBoolean: Optional[str]
+    communication: list[dict]  # patient language
 
 
 class DiagnosticReport(BaseModel):
@@ -122,6 +121,21 @@ class Encounter(BaseModel):
     id: str
 
 
+class AllergyIntolerance(BaseModel):
+    resourceType: Literal["AllergyIntolerance"]
+    id: str
+
+
+class Device(BaseModel):
+    resourceType: Literal["Device"]
+    id: str
+
+
+class SupplyDelivery(BaseModel):
+    resourceType: Literal["SupplyDelivery"]
+    id: str
+
+
 class Entry(BaseModel):
     fulUrl: Optional[str]
     resource: Union[
@@ -142,6 +156,9 @@ class Entry(BaseModel):
         MedicationAdministration,
         ExplanationOfBenefit,
         Encounter,
+        AllergyIntolerance,
+        Device,
+        SupplyDelivery,
     ] = Field(..., discriminator="resourceType")
     request: EntryRequest
 
