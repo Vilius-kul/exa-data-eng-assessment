@@ -1,12 +1,13 @@
+import datetime
 import json
 import os
 
-from db.tables import Patient as Table  # will have to name better
+from db.tables import Patient as Table  # TODO: name better
 from schema import Fhir, Patient
 
 # Opening JSON file
 file_list = sorted(os.listdir("data"))
-file_name = "data/" + file_list[1]
+file_name = "data/" + file_list[0]
 f = open(file_name)
 
 
@@ -27,15 +28,14 @@ def add_patient(data_model):
             given_name = patient.name[0].given[0]  # type: ignore
             dob = patient.birthDate
             gender = patient.gender
-            # print(id, family_name, given_name, dob, gender)
+
             Table.insert(
                 Table(patient_uid=id),
                 Table(family_name=family_name),
                 Table(name_given=given_name),
-                Table(dob=dob),
+                Table(dob=datetime.date(dob.year, dob.month, dob.day)),
                 Table(gender=gender),
             ).run_sync()
-            print("ran!")
 
 
 add_patient(one_file)

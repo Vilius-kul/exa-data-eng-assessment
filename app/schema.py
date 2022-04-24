@@ -1,10 +1,12 @@
-from sys import prefix
+from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel
 
+# TODO: base models to create ['Medication', 'Claim', 'CareTeam', 'Provenance', 'MedicationRequest', 'CarePlan', 'Condition', 'DiagnosticReport', 'Procedure', 'Immunization', 'ImagingStudy', 'DocumentReference', 'MedicationAdministration', 'ExplanationOfBenefit', 'Observation', 'Encounter']
 
-class Name(BaseModel):
+
+class Name(BaseModel):  # to patient_table
     family: Optional[str]
     given: Optional[list[str]]
     prefix: list[str]
@@ -21,7 +23,7 @@ class Patient(BaseModel):
     name: list[Name]  # to base model
     telecom: list[dict]
     gender: str  # to patient_table
-    birthDate: str  # to patient_table
+    birthDate: date  # to patient_table
     deceasedDateTime: Optional[str]  # dateTime?
     address: list[dict]
     maritalStatus: dict

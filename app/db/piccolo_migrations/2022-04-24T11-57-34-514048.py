@@ -1,11 +1,12 @@
 from piccolo.apps.migrations.auto.migration_manager import MigrationManager
-from piccolo.columns.column_types import UUID, Text, Varchar
+from piccolo.columns.column_types import UUID, Date, Text, Varchar
+from piccolo.columns.defaults.date import DateNow
 from piccolo.columns.defaults.uuid import UUID4
 from piccolo.columns.indexes import IndexMethod
 
-ID = "2022-04-23T19:43:06:205328"
+ID = "2022-04-24T11:57:34:514048"
 VERSION = "0.74.1"
-DESCRIPTION = "Adding patient_info table"
+DESCRIPTION = "New table with corret data column"
 
 
 async def forwards():
@@ -16,8 +17,8 @@ async def forwards():
     manager.add_column(
         table_class_name="Patient",
         tablename="patient_info",
-        column_name="PatientUID",
-        db_column_name="PatientUID",
+        column_name="patient_uid",
+        db_column_name="patient_uid",
         column_class_name="UUID",
         column_class=UUID,
         params={
@@ -36,8 +37,8 @@ async def forwards():
     manager.add_column(
         table_class_name="Patient",
         tablename="patient_info",
-        column_name="NameFamily",
-        db_column_name="NameFamily",
+        column_name="family_name",
+        db_column_name="family_name",
         column_class_name="Varchar",
         column_class=Varchar,
         params={
@@ -57,8 +58,8 @@ async def forwards():
     manager.add_column(
         table_class_name="Patient",
         tablename="patient_info",
-        column_name="NameGiven",
-        db_column_name="NameGiven",
+        column_name="name_given",
+        db_column_name="name_given",
         column_class_name="Varchar",
         column_class=Varchar,
         params={
@@ -78,13 +79,12 @@ async def forwards():
     manager.add_column(
         table_class_name="Patient",
         tablename="patient_info",
-        column_name="DoB",
-        db_column_name="DoB",
-        column_class_name="Text",
-        column_class=Text,
+        column_name="dob",
+        db_column_name="dob",
+        column_class_name="Date",
+        column_class=Date,
         params={
-            "length": 50,
-            "default": "",
+            "default": DateNow(),
             "null": False,
             "primary_key": False,
             "unique": False,
@@ -99,8 +99,8 @@ async def forwards():
     manager.add_column(
         table_class_name="Patient",
         tablename="patient_info",
-        column_name="Gender",
-        db_column_name="Gender",
+        column_name="gender",
+        db_column_name="gender",
         column_class_name="Text",
         column_class=Text,
         params={

@@ -16,22 +16,10 @@ data = json.load(f)
 one_file = Fhir(**data)
 
 
-def add_patient(one_file):
-    for i in range(len(one_file.entry)):
-        if one_file.entry[i].request.url == "Patient":
-            patient_info = one_file.entry[i].resource
-            patient = Patient(**patient_info)
+request_urls = set()
+for i in range(len(one_file.entry)):
+    request_urls.add(one_file.entry[i].request.url)
 
-    id = patient.id
-    family_name = patient.name[0].family
-    given_name = patient.name[0].given[0]
-    dob = patient.birthDate
-    gender = patient.gender
-
-    return id, family_name, given_name, dob, gender
-
-
-print(add_patient(one_file))
-
+print(request_urls)
 
 f.close()
