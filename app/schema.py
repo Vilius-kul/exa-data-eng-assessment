@@ -1,10 +1,9 @@
 from datetime import date
 from token import OP
-from typing import Optional
+from typing import Literal, Optional, Union
 
-from pydantic import BaseModel
-
-# TODO: base models to create ['Medication', 'Claim', 'CareTeam', 'Provenance', 'MedicationRequest', 'CarePlan', 'Condition', 'DiagnosticReport', 'Procedure', 'Immunization', 'ImagingStudy', 'DocumentReference', 'MedicationAdministration', 'ExplanationOfBenefit', 'Observation', 'Encounter']
+from pydantic import BaseModel, Field
+from typing_extensions import Annotated
 
 
 class Name(BaseModel):  # to patient_table
@@ -20,17 +19,22 @@ class Telecom(BaseModel):
     use: Optional[str]
 
 
+class Condition(BaseModel):
+    resourceType: Literal["Condition"]
+    id: str
+
+
 class Patient(BaseModel):
-    resourceType: str
-    id: str  # to patient_table
-    meta: dict
-    text: dict
+    resourceType: Literal["Patient"]
+    id: str
+    meta: dict  # ?
+    text: dict  # ?
     extension: list[dict]
     identifier: list[dict]
-    name: list[Name]  # to base model
+    name: list[Name]
     telecom: list[Telecom]
-    gender: str  # to patient_table
-    birthDate: date  # to patient_table
+    gender: str
+    birthDate: date
     deceasedDateTime: Optional[str]  # TODO: dateTime?
     address: list[dict]
     maritalStatus: dict
@@ -38,14 +42,107 @@ class Patient(BaseModel):
     communication: list[dict]
 
 
+class DiagnosticReport(BaseModel):
+    resourceType: Literal["DiagnosticReport"]
+    id: str
+
+
+class Observation(BaseModel):
+    resourceType: Literal["Observation"]
+    id: str
+
+
 class EntryRequest(BaseModel):
     method: str
     url: str
 
 
+class Medication(BaseModel):
+    resourceType: Literal["Medication"]
+    id: str
+
+
+class Claim(BaseModel):
+    resourceType: Literal["Claim"]
+    id: str
+
+
+class CareTeam(BaseModel):
+    resourceType: Literal["CareTeam"]
+    id: str
+
+
+class Provenance(BaseModel):
+    resourceType: Literal["Provenance"]
+    id: str
+
+
+class MedicationRequest(BaseModel):
+    resourceType: Literal["MedicationRequest"]
+    id: str
+
+
+class CarePlan(BaseModel):
+    resourceType: Literal["CarePlan"]
+    id: str
+
+
+class Procedure(BaseModel):
+    resourceType: Literal["Procedure"]
+    id: str
+
+
+class Immunization(BaseModel):
+    resourceType: Literal["Immunization"]
+    id: str
+
+
+class ImagingStudy(BaseModel):
+    resourceType: Literal["ImagingStudy"]
+    id: str
+
+
+class DocumentReference(BaseModel):
+    resourceType: Literal["DocumentReference"]
+    id: str
+
+
+class MedicationAdministration(BaseModel):
+    resourceType: Literal["MedicationAdministration"]
+    id: str
+
+
+class ExplanationOfBenefit(BaseModel):
+    resourceType: Literal["ExplanationOfBenefit"]
+    id: str
+
+
+class Encounter(BaseModel):
+    resourceType: Literal["Encounter"]
+    id: str
+
+
 class Entry(BaseModel):
     fulUrl: Optional[str]
-    resource: dict
+    resource: Union[
+        Patient,
+        Condition,
+        DiagnosticReport,
+        Observation,
+        Medication,
+        Claim,
+        CareTeam,
+        Provenance,
+        MedicationRequest,
+        CarePlan,
+        Procedure,
+        Immunization,
+        ImagingStudy,
+        DocumentReference,
+        MedicationAdministration,
+        ExplanationOfBenefit,
+        Encounter,
+    ] = Field(..., discriminator="resourceType")
     request: EntryRequest
 
 

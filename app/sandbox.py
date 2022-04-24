@@ -15,12 +15,14 @@ data = json.load(f)
 
 one_file = Fhir(**data)
 
+pprint(one_file.entry[0].resource.telecom)
 
-for i in range(len(one_file.entry)):
-    if one_file.entry[i].request.url == "Patient":
-        one_entry = one_file.entry[i].resource
-        one_patient = Patient(**one_entry)
-        print(one_patient.telecom[0].value)
+
+# for i in range(len(one_file.entry)):
+#     if one_file.entry[i].request.url == "Patient":
+#         one_entry = one_file.entry[i].resource
+#         one_patient = Patient(**one_entry)
+#         pprint(one_patient.extension)
 
 
 f.close()
