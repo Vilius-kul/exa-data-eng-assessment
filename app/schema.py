@@ -1,4 +1,5 @@
 from datetime import date
+from token import OP
 from typing import Optional
 
 from pydantic import BaseModel
@@ -9,7 +10,13 @@ from pydantic import BaseModel
 class Name(BaseModel):  # to patient_table
     family: Optional[str]
     given: Optional[list[str]]
-    prefix: list[str]
+    prefix: Optional[list[str]]
+    use: Optional[str]
+
+
+class Telecom(BaseModel):
+    system: Optional[str]
+    value: Optional[str]
     use: Optional[str]
 
 
@@ -21,10 +28,10 @@ class Patient(BaseModel):
     extension: list[dict]
     identifier: list[dict]
     name: list[Name]  # to base model
-    telecom: list[dict]
+    telecom: list[Telecom]
     gender: str  # to patient_table
     birthDate: date  # to patient_table
-    deceasedDateTime: Optional[str]  # dateTime?
+    deceasedDateTime: Optional[str]  # TODO: dateTime?
     address: list[dict]
     maritalStatus: dict
     multipleBirthBoolean: bool

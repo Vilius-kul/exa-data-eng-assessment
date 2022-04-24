@@ -16,10 +16,11 @@ data = json.load(f)
 one_file = Fhir(**data)
 
 
-request_urls = set()
 for i in range(len(one_file.entry)):
-    request_urls.add(one_file.entry[i].request.url)
+    if one_file.entry[i].request.url == "Patient":
+        one_entry = one_file.entry[i].resource
+        one_patient = Patient(**one_entry)
+        print(one_patient.telecom[0].value)
 
-print(request_urls)
 
 f.close()
