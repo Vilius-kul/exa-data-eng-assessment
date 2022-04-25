@@ -1,5 +1,8 @@
 from piccolo.apps.migrations.auto.migration_manager import MigrationManager
+from piccolo.columns.base import OnDelete
+from piccolo.columns.base import OnUpdate
 from piccolo.columns.column_types import Date
+from piccolo.columns.column_types import ForeignKey
 from piccolo.columns.column_types import Numeric
 from piccolo.columns.column_types import Real
 from piccolo.columns.column_types import Text
@@ -8,10 +11,25 @@ from piccolo.columns.column_types import Varchar
 from piccolo.columns.defaults.date import DateNow
 from piccolo.columns.defaults.uuid import UUID4
 from piccolo.columns.indexes import IndexMethod
+from piccolo.table import Table
 import decimal
 
 
-ID = "2022-04-25T00:45:58:439654"
+class Patient(Table, tablename="patient_info"):
+    patient_id = UUID(
+        default=UUID4(),
+        null=False,
+        primary_key=True,
+        unique=False,
+        index=False,
+        index_method=IndexMethod.btree,
+        choices=None,
+        db_column_name=None,
+        secret=False,
+    )
+
+
+ID = "2022-04-25T01:12:39:770499"
 VERSION = "0.74.1"
 DESCRIPTION = ""
 
@@ -21,7 +39,95 @@ async def forwards():
         migration_id=ID, app_name="db", description=DESCRIPTION
     )
 
+    manager.add_table("Telecom", tablename="telecom_info")
+
     manager.add_table("Patient", tablename="patient_info")
+
+    manager.add_column(
+        table_class_name="Telecom",
+        tablename="telecom_info",
+        column_name="system",
+        db_column_name="system",
+        column_class_name="Varchar",
+        column_class=Varchar,
+        params={
+            "length": 50,
+            "default": "",
+            "null": False,
+            "primary_key": False,
+            "unique": False,
+            "index": False,
+            "index_method": IndexMethod.btree,
+            "choices": None,
+            "db_column_name": None,
+            "secret": False,
+        },
+    )
+
+    manager.add_column(
+        table_class_name="Telecom",
+        tablename="telecom_info",
+        column_name="phone_number",
+        db_column_name="phone_number",
+        column_class_name="Varchar",
+        column_class=Varchar,
+        params={
+            "length": 30,
+            "default": "",
+            "null": False,
+            "primary_key": False,
+            "unique": False,
+            "index": False,
+            "index_method": IndexMethod.btree,
+            "choices": None,
+            "db_column_name": None,
+            "secret": False,
+        },
+    )
+
+    manager.add_column(
+        table_class_name="Telecom",
+        tablename="telecom_info",
+        column_name="use",
+        db_column_name="use",
+        column_class_name="Varchar",
+        column_class=Varchar,
+        params={
+            "length": 50,
+            "default": "",
+            "null": False,
+            "primary_key": False,
+            "unique": False,
+            "index": False,
+            "index_method": IndexMethod.btree,
+            "choices": None,
+            "db_column_name": None,
+            "secret": False,
+        },
+    )
+
+    manager.add_column(
+        table_class_name="Telecom",
+        tablename="telecom_info",
+        column_name="patient_uid",
+        db_column_name="patient_uid",
+        column_class_name="ForeignKey",
+        column_class=ForeignKey,
+        params={
+            "references": Patient,
+            "on_delete": OnDelete.cascade,
+            "on_update": OnUpdate.cascade,
+            "target_column": None,
+            "null": True,
+            "primary_key": False,
+            "unique": False,
+            "index": False,
+            "index_method": IndexMethod.btree,
+            "choices": None,
+            "db_column_name": None,
+            "secret": False,
+        },
+    )
 
     manager.add_column(
         table_class_name="Patient",

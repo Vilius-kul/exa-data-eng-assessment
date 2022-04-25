@@ -37,9 +37,9 @@ class Patient(Table, tablename="patient_info"):
     quality_adjusted_life_years = Real()
 
 
-# class Telecom(Table, tablename="telecom_info"):
+class Telecom(Table, tablename="telecom_info"):
 
-#     system = Varchar(length=50)
-#     phone_number = Varchar(length=30)
-#     use = Varchar(length=50)
-#     patient_uid = ForeignKey(references=Patient)
+    system = Varchar(length=50)
+    phone_number = Varchar(length=30)
+    use = Varchar(length=50)
+    patient_uid = ForeignKey(references=Patient)

@@ -4,8 +4,7 @@ import os
 from decimal import Decimal
 
 from db.tables import Patient as patient_table
-
-# from db.tables import Telecom as telecom_table
+from db.tables import Telecom as telecom_table
 from schema import Fhir
 
 file_list = os.listdir("data")
@@ -19,6 +18,7 @@ def load_json_files_to_db(file_list):
         one_file = Fhir(**data)
         # parse obj
         add_patient(one_file)
+        add_telecom(one_file)
         f.close()
 
 
@@ -92,10 +92,24 @@ def add_patient(data_model):
             ).run_sync()
 
 
-load_json_files_to_db(file_list)
+def add_telecom(data_model):
+    for entry in data_model.entry:
+        if entry.resource.resourceType == "Patient":
 
-# add_telecom(one_file)
+            system = entry.resource.telecom[0].system
+            phone_number = entry.resource.telecom[0].value
+            use = entry.resource.telecom[0].use
+            id = entry.resource.id
+            telecom_table.insert(
+                telecom_table(
+                    system=system, phone_number=phone_number, use=use, patient_uid=id
+                ),
+            ).run_sync()
 
+
+# load_json_files_to_db(file_list)
+
+print("Working?")
 
 # from piccolo.table import drop_tables
 

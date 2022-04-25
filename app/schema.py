@@ -1,11 +1,10 @@
-from datetime import date, datetime
+from datetime import date
 from typing import Literal, Optional, Union
 
-from pydantic import BaseModel, Field, parse_obj_as
-from typing_extensions import Annotated
+from pydantic import BaseModel, Field
 
 
-class Name(BaseModel):  # to patient_table
+class Name(BaseModel):
     family: Optional[str]
     given: Optional[list[str]]
     prefix: Optional[list[str]]
@@ -38,7 +37,7 @@ class Patient(BaseModel):
     address: list[dict]
     maritalStatus: dict
     multipleBirthBoolean: str = "n/a"
-    communication: list[dict]  # patient language
+    communication: list[dict]
 
 
 class DiagnosticReport(BaseModel):

@@ -1,1 +1,1 @@
-fhir.resources
+piccolo[postgres]

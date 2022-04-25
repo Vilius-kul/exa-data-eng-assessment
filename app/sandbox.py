@@ -1,6 +1,6 @@
 import json
 import os
-from pprint import pp, pprint
+from pprint import pprint
 
 from schema import Fhir, Patient
 
@@ -18,16 +18,11 @@ one_file = Fhir(**data)
 
 for entry in one_file.entry:
     if entry.resource.resourceType == "Patient":
-        dead = entry.resource.deceasedDateTime
-        print(
-            dead.year,
-            dead.month,
-            dead.day,
-            dead.hour,
-            dead.minute,
-            dead.second,
-            dead.tzname(),
-        )
+        system = entry.resource.telecom[0].system
+        phone_number = entry.resource.telecom[0].value
+        use = entry.resource.telecom[0].use
+        id = entry.resource.id
+        print(system, phone_number, use, id)
 
 
 # for i in range(len(one_file.entry)):
