@@ -8,5 +8,7 @@ WORKDIR /app
 
 RUN ["chmod", "+x", "run_migrations.sh"]
 
-# RUN piccolo migrations check
 
+
+
+#bash -c "sh app/run_migrations.sh && python app/main.py "

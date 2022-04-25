@@ -1,5 +1,5 @@
 #!/bin/bash
 
-piccolo migrations new jokes --auto
+piccolo migrations new db --auto
 
 piccolo migrations forwards all

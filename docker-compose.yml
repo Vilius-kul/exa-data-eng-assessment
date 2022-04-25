@@ -21,8 +21,7 @@ services:
       - db
     networks:
       - app
-    working_dir: /
-    command: python app/main.py
+    command: bash -c "python app/manage.py"
 
 networks:
   app:
